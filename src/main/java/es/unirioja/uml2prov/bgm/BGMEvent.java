@@ -3,6 +3,10 @@ package es.unirioja.uml2prov.bgm;
 
 import java.util.EventObject;
 
+/**
+ * @author carlos
+ *
+ */
 public class BGMEvent extends EventObject {
 	
 	@Override
@@ -17,6 +21,10 @@ public class BGMEvent extends EventObject {
 	private String executionID;
 	private String className;
 	private String executionIdMethod;
+	
+	/**
+	 * @param executionIdMethod
+	 */
 	public void setExecutionIdMethod(String executionIdMethod) {
 		this.executionIdMethod = executionIdMethod;
 	}
@@ -32,6 +40,14 @@ public class BGMEvent extends EventObject {
 
 	
 	//para elementos
+	/**
+	 * @param source
+	 * @param executionID
+	 * @param className
+	 * @param executionIdMethod
+	 * @param varName
+	 * @param value
+	 */
 	public BGMEvent(Object source, String executionID, String className, String executionIdMethod, String varName,String value) {
 		super(source);
 		this.executionID = executionID;
@@ -43,6 +59,13 @@ public class BGMEvent extends EventObject {
 	
 	
 	//para valores de elementos
+	/**
+	 * @param source
+	 * @param executionID
+	 * @param value
+	 * @param identifier
+	 * @param type
+	 */
 	public BGMEvent(Object source, String executionID, String value, String identifier, String type) {
 		super(source);
 		this.executionID = executionID;
@@ -52,6 +75,12 @@ public class BGMEvent extends EventObject {
 	}
 	
 	//para inicio y final metodo
+	/**
+	 * @param source
+	 * @param executionID
+	 * @param className
+	 * @param executionIdMethod
+	 */
 	public BGMEvent(Object source, String executionID, String className, String executionIdMethod) {
 		super(source);
 		this.executionID = executionID;
@@ -59,46 +88,76 @@ public class BGMEvent extends EventObject {
 		this.executionIdMethod = executionIdMethod;
 	}
 	
+	/**
+	 * @param varName
+	 */
 	public void setVarName(String varName) {
 		this.varName = varName;
 	}
 
 
+	/**
+	 * @return
+	 */
 	public String getIdentifier() {
 		return identifier;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getType() {
 		return type;
 	}
 
 	
+	/**
+	 * @return
+	 */
 	public String getExecutionID() {
 		return executionID;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getClassName() {
 		return className;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getExecutionIdMethod() {
 		return executionIdMethod;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getVarName() {
 		return varName;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getValue() {
 		return value;
 	}
 
 
+	/**
+	 * @return
+	 */
 	public String getState() {
 		return state;
 	}
 
 
+	/**
+	 * @param state
+	 */
 	public void setState(String state) {
 		this.state = state;
 	}

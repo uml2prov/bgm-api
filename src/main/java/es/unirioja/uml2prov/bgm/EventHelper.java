@@ -12,91 +12,106 @@ import java.util.NoSuchElementException;
  * notificaci�n de los eventos a los listeners registrados.
  * <p>
  * Las clases que sean fuente de eventos de ejecuci�n podr�n usar objetos de
- * esta clase para realizar las tareas relacionadas con la gesti�n de los 
+ * esta clase para realizar las tareas relacionadas con la gesti�n de los
  * listener y la notificaci�n de los eventos.
  */
 public class EventHelper<L> {
-  // Lista de listeners suscritos
-  private ArrayList<L> listeners;
+	// Lista de listeners suscritos
+	private ArrayList<L> listeners;
 
-  private HashMap<String, Method> methodTable;
-
-  
-  /**
-   * El constructor recibe la clase del listener, para averiguar cuales son su 
-   * m�todos por introspecci�n
-   */
-  public EventHelper(Class<L> interfaceListener) {
-    initMethodTable(interfaceListener);
-  }
+	private HashMap<String, Method> methodTable;
 
 
-private void initMethodTable(Class interfaceListener) {
-    this.methodTable = new HashMap<>();
-    Method[] methods = interfaceListener.getMethods();
-    for (Method m : methods) {
-      this.methodTable.put(m.getName(), m);
-    }
-  }
+	/**
+	 * @param interfaceListener interface
+	 */
+	public EventHelper(Class<L> interfaceListener) {
+		initMethodTable(interfaceListener);
+	}
 
-  /**
-   * Suscribe un listener para que le sean notificados eventos
-   */
-  public synchronized void addListener(L l) {
-    if (listeners == null) {
-      listeners = new ArrayList();
-    }
+	/**
+	 * @param interfaceListener param
+	 */
+	private void initMethodTable(Class interfaceListener) {
+		this.methodTable = new HashMap<>();
+		Method[] methods = interfaceListener.getMethods();
+		for (Method m : methods) {
+			this.methodTable.put(m.getName(), m);
+		}
+	}
 
-    if (!listeners.contains(l)) {
-      listeners.add(l);
-    }
-  }
+	/**
+	 * Suscribe un listener para que le sean notificados eventos
+	 */
+	/**
+	 * @param l listener
+	 */
+	public synchronized void addListener(L l) {
+		if (listeners == null) {
+			listeners = new ArrayList();
+		}
 
-  /**
-   * Elimina la suscripci�n de un listener
-   */
-  public synchronized void removeListener(L l) {
-    if (listeners != null) {
-      listeners.remove(l);
-      if (listeners.size() == 0) {
-        listeners = null;
-      }
-    }
-  }
+		if (!listeners.contains(l)) {
+			listeners.add(l);
+		}
+	}
 
-  /**
-   * Devuelve la cantidad de listeners registrados
-   */
-  public synchronized int listenersSize() {
-    if (listeners == null) {
-      return 0;
-    } else {
-      return listeners.size();
-    }
-  }
-  
-  /**
-   * Notifica el evento que digamos, con el objeto evento que digamos a los listeners registrados
-   */
-  public void fireEvent(String name, EventObject evt) throws InvocationTargetException {
-    if (listeners == null) {
-      return;
-    }
+	/**
+	 * Elimina la suscripci�n de un listener
+	 */
+	/**
+	 * @param l listener
+	 */
+	public synchronized void removeListener(L l) {
+		if (listeners != null) {
+			listeners.remove(l);
+			if (listeners.size() == 0) {
+				listeners = null;
+			}
+		}
+	}
 
-    Method m = methodTable.get(name);
-    if (m == null) {
-      throw new NoSuchElementException("Los listeners gestionados por este helper no disponen del metodo " + name);
-    }
+	/**
+	 * Devuelve la cantidad de listeners registrados
+	 */
+	/**
+	 * @return size of listeners
+	 */
+	public synchronized int listenersSize() {
+		if (listeners == null) {
+			return 0;
+		} else {
+			return listeners.size();
+		}
+	}
 
-    for (L listener : listeners) {
-      try {
-        m.invoke(listener, evt);
-      } catch (IllegalAccessException ex) {
-    	System.err.println("IllegalAccessException reaching listener: "+listener);
-        //Logger.getLogger(EventHelper.class.getName()).log(Level.SEVERE, null, ex);
-      }
-    }
-  }
+	/**
+	 * Notifica el evento que digamos, con el objeto evento que digamos a los
+	 * listeners registrados
+	 */
+	/**
+	 * @param name name of the event
+	 * @param evt eventObject
+	 * @throws InvocationTargetException
+	 */
+	public void fireEvent(String name, EventObject evt) throws InvocationTargetException {
+		if (listeners == null) {
+			return;
+		}
+
+		Method m = methodTable.get(name);
+		if (m == null) {
+			throw new NoSuchElementException(
+					"Los listeners gestionados por este helper no disponen del metodo " + name);
+		}
+
+		for (L listener : listeners) {
+			try {
+				m.invoke(listener, evt);
+			} catch (IllegalAccessException ex) {
+				System.err.println("IllegalAccessException reaching listener: " + listener);
+				// Logger.getLogger(EventHelper.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
 }
-
-
