@@ -5,7 +5,6 @@ import java.util.EventObject;
 
 public class BGMEvent extends EventObject {
 	
-	
 	@Override
 	public String toString() {
 		return "BGMEvent [executionID=" + executionID + ", className=" + className + ", executionIdMethod="
