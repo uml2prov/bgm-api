@@ -12,6 +12,7 @@ public class BGMEvent extends EventObject {
 				+ ", type=" + type + ", state=" + state + "]";
 	}
 
+	
 	//para los elementos
 	private String executionID;
 	private String className;
